@@ -13,6 +13,7 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Signal Graph')),
       body: Center(
         // child: Text('Hi Mom'),
         child: LineChart(
@@ -68,12 +69,12 @@ class ResultScreen extends StatelessWidget {
                   // isCurved: true
                   ),
             ],
-            minX: getMin(data[0]),
+            minX: getMin(data[0]) - 10,
 
             maxX: getMax(data[0]) + 10,
             // Y
-            minY: getMin(data[1]),
-            maxY: getMax(data[1]),
+            minY: getMin(data[1]) - 10,
+            maxY: getMax(data[1]) + 10,
           ),
         ),
       ),
