@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:signals_plotter/result_screen.dart';
 
 // List inputList =
 //     List.filled(2, List.filled(4, 0.0, growable: true), growable: false);
@@ -18,14 +19,34 @@ void validate() {
 
 void autoFill() {
   for (int i = 0; i < degreesList.length; i++) {
-    if (degreesList[i] == null)
-      degreesList[i] =
-          Random().nextDouble() * 60 * (Random().nextBool() ? 1 : -1);
+    if (degreesList[i] == null) {
+      double val = Random().nextDouble() * 360 * (Random().nextBool() ? 1 : -1);
+      if (i == 0) {
+      } else {
+        if (val > degreesList[i - 1]) {
+        } else {
+          val = degreesList[i - 1] + val;
+        }
+      }
+      degreesList[i] = val;
+    }
   }
+  degreesList.sort();
+  print(degreesList);
   for (int i = 0; i < voltsList.length; i++) {
     if (voltsList[i] == null)
       voltsList[i] =
-          Random().nextDouble() * 360 * (Random().nextBool() ? 1 : -1);
+          Random().nextDouble() * 60 * (Random().nextBool() ? 1 : -1);
+  }
+  validate();
+}
+
+void clear() {
+  for (int i = 0; i < degreesList.length; i++) {
+    degreesList[i] = null;
+  }
+  for (int i = 0; i < voltsList.length; i++) {
+    voltsList[i] = null;
   }
   validate();
 }
@@ -91,7 +112,9 @@ class _InputScreenState extends State<InputScreen> {
                           if (isValid) {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return Scaffold();
+                              return ResultScreen(
+                                data: [degreesList, voltsList],
+                              );
                             }));
                           } else {
                             Fluttertoast.showToast(
@@ -116,7 +139,7 @@ class _InputScreenState extends State<InputScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.only(top: 10.0),
                   child: TextButton(
                     onPressed: () {
                       setState(() {
@@ -131,6 +154,14 @@ class _InputScreenState extends State<InputScreen> {
                       child: Text('auto fill with random values?'),
                     ),
                   ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      clear();
+                    });
+                  },
+                  child: Text('or clear?'),
                 ),
                 Container(
                   width: double.infinity,
@@ -257,7 +288,9 @@ class OneCoordinateEntry extends StatelessWidget {
           controller: _controller,
           onChanged: (e) {
             dataPiece = double.parse(
-                (e == '' || e == null || e == '.') ? 0.0.toString() : e);
+                (e == '' || e == null || e == '.' || e == '-')
+                    ? 0.0.toString()
+                    : e);
             saveData();
             validate();
           },

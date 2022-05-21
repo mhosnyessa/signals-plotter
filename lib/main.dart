@@ -11,10 +11,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List data = [
-      [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360],
-      [62, 35, -38, -64, -63, -52, -28, 24, 80, 96, 90, 70]
-    ];
     return MaterialApp(
       // home: ResultScreen(data: data),
       home: InputScreen(),

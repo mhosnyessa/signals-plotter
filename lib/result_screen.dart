@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({
@@ -16,10 +17,41 @@ class ResultScreen extends StatelessWidget {
         // child: Text('Hi Mom'),
         child: LineChart(
           LineChartData(
+            // from my fav youtuber
+            gridData: FlGridData(
+              show: true,
+              getDrawingHorizontalLine: (value) {
+                return FlLine(
+                  color: const Color(0xff37434d),
+                  strokeWidth: 1,
+                );
+              },
+              drawVerticalLine: true,
+              getDrawingVerticalLine: (value) {
+                return FlLine(
+                  color: const Color(0xff37434d),
+                  strokeWidth: 1,
+                );
+              },
+            ),
+            borderData: FlBorderData(
+              show: true,
+              border: Border.all(color: const Color(0xff37434d), width: 1),
+            ),
+            //end of
             lineBarsData: <LineChartBarData>[
               LineChartBarData(
                   show: true,
                   isCurved: true,
+                  colors: [Colors.blue, Colors.purple],
+                  barWidth: 5,
+                  // dotData: FlDotData(show: false),
+                  belowBarData: BarAreaData(
+                    show: true,
+                    colors: [Colors.blue, Colors.green]
+                        .map((color) => color.withOpacity(0.3))
+                        .toList(),
+                  ),
                   spots: () {
                     List<FlSpot> flSpots = [];
                     for (var i = 0; i < data[0].length; i++) {
@@ -36,14 +68,25 @@ class ResultScreen extends StatelessWidget {
                   // isCurved: true
                   ),
             ],
-            minX: 30,
-            maxX: 360,
+            minX: getMin(data[0]),
+
+            maxX: getMax(data[0]) + 10,
             // Y
-            minY: -100,
-            maxY: 100,
+            minY: getMin(data[1]),
+            maxY: getMax(data[1]),
           ),
         ),
       ),
     );
+  }
+
+  double getMax(List e) {
+    e.sort();
+    return e.last;
+  }
+
+  double getMin(List e) {
+    e.sort();
+    return e.first;
   }
 }
