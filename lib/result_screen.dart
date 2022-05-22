@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'dart:math';
 
 class ResultScreen extends StatelessWidget {
@@ -69,7 +70,7 @@ class ResultScreen extends StatelessWidget {
                   // isCurved: true
                   ),
             ],
-            minX: getMin(data[0]) - 10,
+            minX: getMin(data[0]),
 
             maxX: getMax(data[0]) + 10,
             // Y

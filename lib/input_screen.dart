@@ -3,18 +3,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:signals_plotter/result_screen.dart';
+import 'dart:ui';
 
 // List inputList =
 //     List.filled(2, List.filled(4, 0.0, growable: true), growable: false);
-int initialSize = 4;
+int initialSize = 20;
 List degreesList = List.filled(initialSize, null);
 List voltsList = List.filled(initialSize, null);
 
 bool isValid = false;
 void validate() {
-  if (degreesList.contains(null) || voltsList.contains(null)) isValid = false;
-
-  isValid = true;
+  if (degreesList.contains(null) || voltsList.contains(null)) {
+    isValid = false;
+  } else {
+    isValid = true;
+  }
 }
 
 void autoFill() {
@@ -34,9 +37,10 @@ void autoFill() {
   degreesList.sort();
   print(degreesList);
   for (int i = 0; i < voltsList.length; i++) {
-    if (voltsList[i] == null)
+    if (voltsList[i] == null) {
       voltsList[i] =
           Random().nextDouble() * 60 * (Random().nextBool() ? 1 : -1);
+    }
   }
   validate();
 }
@@ -109,6 +113,7 @@ class _InputScreenState extends State<InputScreen> {
                       ),
                       onPressed: () {
                         setState(() {
+                          validate();
                           if (isValid) {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {

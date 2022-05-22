@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_plotter/input_screen.dart';
 
+import 'dart:ui';
+
 void main() {
   runApp(const MyApp());
 }
